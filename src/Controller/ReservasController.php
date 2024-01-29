@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,12 +10,17 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Apartamento;
 use App\Entity\Reserva;
+use App\Entity\Cliente;
 
 class ReservasController extends AbstractController
 {
     #[Route('/reservas', name: 'crear_reserva', methods: ['POST'])]
     public function crearReserva(Request $peticion, EntityManagerInterface $administradorEntidades): JsonResponse
     {
+        $apiKey = $peticion->query->get('apikey');
+        if (!$this->verificarApiKey($apiKey, $administradorEntidades)) {
+            return $this->json(['error' => 'API KEY no válida.'], 403);
+        }
         $data = json_decode($peticion->getContent(), true);
 
         // Validar campos obligatorios
@@ -53,8 +59,13 @@ class ReservasController extends AbstractController
         return $this->json(['mensaje' => 'Reserva creada correctamente.']);
     }
     #[Route('/reservas/anular/{id}', name: 'anular_reserva', methods: ['PUT'])]
-    public function anularReserva(int $id, EntityManagerInterface $administradorEntidades): JsonResponse
+    public function anularReserva(int $id, Request $peticion, EntityManagerInterface $administradorEntidades): JsonResponse
     {
+        $apiKey = $peticion->query->get('apikey');
+        if (!$this->verificarApiKey($apiKey, $administradorEntidades)) {
+            return $this->json(['error' => 'API KEY no válida.'], 403);
+        }
+
         // Buscar la reserva por ID
         $reserva = $administradorEntidades->getRepository(Reserva::class)->find($id);
 
@@ -76,4 +87,16 @@ class ReservasController extends AbstractController
 
         return $this->json(['mensaje' => 'Reserva anulada correctamente.']);
     }
+
+    private function verificarApiKey(?string $apiKey, EntityManagerInterface $administradorEntidades): bool
+    {
+        if ($apiKey === null) {
+            return false;
+        }
+    
+        $cliente = $administradorEntidades->getRepository(Cliente::class)->findOneBy(['apiKey' => $apiKey]);
+    
+        return $cliente !== null;
+    }
+    
 }
