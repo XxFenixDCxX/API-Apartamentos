@@ -144,6 +144,37 @@
 			"response": []
 		},
 		{
+			"name": "Crear Reserva (No ApiKey Error)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"apartamento_id\": 1,\r\n  \"fecha_entrada\": \"2024-07-01\",\r\n  \"fecha_fin_contrato\": \"2024-07-20\",\r\n  \"contacto_reserva\": \"John Doe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/reservas",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Anular Reserva (Reserva no existe Error)",
 			"request": {
 				"method": "PUT",
@@ -193,6 +224,30 @@
 		},
 		{
 			"name": "Anular Reserva",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/reservas/anular/2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"reservas",
+						"anular",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Anular Reserva (No ApiKey Error)",
 			"request": {
 				"method": "PUT",
 				"header": [],
