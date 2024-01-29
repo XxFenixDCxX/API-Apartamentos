@@ -152,14 +152,38 @@ class Apartamento
         return $this;
     }
 
+    public function estaOcupado(): bool
+    {
+        $hoy = new \DateTime();
+        foreach ($this->reservas as $reserva) {
+            $fechaEntrada = new \DateTime($reserva->getFechaEntrada());
+            $fechaFinContrato = new \DateTime($reserva->getFechaFinContrato());
+
+            if ($hoy >= $fechaEntrada && $hoy <= $fechaFinContrato) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function toArray(): array
     {
         $fotosArray = [];
-    
+
         foreach ($this->fotos as $foto) {
             $fotosArray[] = $foto->toArray();
         }
-    
+
+        $reservasArray = [];
+
+        foreach ($this->reservas as $reserva) {
+            $reservasArray[] = [
+                'fecha_entrada' => $this->estaOcupado() ? null : $reserva->getFechaEntrada(),
+                'fecha_fin_contrato' => $this->estaOcupado() ? null : $reserva->getFechaFinContrato(),
+            ];
+        }
+
         return [
             'id' => $this->id,
             'titulo' => $this->titulo,
@@ -167,6 +191,8 @@ class Apartamento
             'direccion' => $this->direccion,
             'precio' => $this->precio,
             'fotos' => $fotosArray,
+            'ocupado' => $this->estaOcupado(),
+            'fechas' => $reservasArray,
         ];
-    } 
+    }
 }
