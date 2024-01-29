@@ -47,4 +47,11 @@ class Foto
 
         return $this;
     }
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'url' => $this->url,
+        ];
+    } 
 }

@@ -151,4 +151,22 @@ class Apartamento
 
         return $this;
     }
+
+    public function toArray(): array
+    {
+        $fotosArray = [];
+    
+        foreach ($this->fotos as $foto) {
+            $fotosArray[] = $foto->toArray();
+        }
+    
+        return [
+            'id' => $this->id,
+            'titulo' => $this->titulo,
+            'descripcion' => $this->descripcion,
+            'direccion' => $this->direccion,
+            'precio' => $this->precio,
+            'fotos' => $fotosArray,
+        ];
+    } 
 }
