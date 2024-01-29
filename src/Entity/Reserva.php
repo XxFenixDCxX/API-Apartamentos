@@ -16,11 +16,11 @@ class Reserva
     #[ORM\ManyToOne(inversedBy: 'reservas')]
     private ?Apartamento $apartamento = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $fecha_entrada = null;
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTimeInterface $fecha_entrada = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $fecha_fin_contrato = null;
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTimeInterface $fecha_fin_contrato = null;
 
     #[ORM\Column(length: 255)]
     private ?string $contacto_reserva = null;
@@ -42,24 +42,24 @@ class Reserva
         return $this;
     }
 
-    public function getFechaEntrada(): ?string
+    public function getFechaEntrada(): ?\DateTimeInterface
     {
         return $this->fecha_entrada;
     }
 
-    public function setFechaEntrada(string $fecha_entrada): static
+    public function setFechaEntrada(\DateTimeInterface $fecha_entrada): static
     {
         $this->fecha_entrada = $fecha_entrada;
 
         return $this;
     }
 
-    public function getFechaFinContrato(): ?string
+    public function getFechaFinContrato(): ?\DateTimeInterface
     {
         return $this->fecha_fin_contrato;
     }
 
-    public function setFechaFinContrato(string $fecha_fin_contrato): static
+    public function setFechaFinContrato(\DateTimeInterface $fecha_fin_contrato): static
     {
         $this->fecha_fin_contrato = $fecha_fin_contrato;
 
@@ -76,5 +76,16 @@ class Reserva
         $this->contacto_reserva = $contacto_reserva;
 
         return $this;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'apartamento' => $this->apartamento ? $this->apartamento->getId() : null,
+            'fecha_entrada' => $this->fecha_entrada ? $this->fecha_entrada->format('Y-m-d H:i:s') : null,
+            'fecha_fin_contrato' => $this->fecha_fin_contrato ? $this->fecha_fin_contrato->format('Y-m-d H:i:s') : null,
+            'contacto_reserva' => $this->contacto_reserva,
+        ];
     }
 }

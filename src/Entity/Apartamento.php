@@ -152,12 +152,29 @@ class Apartamento
         return $this;
     }
 
+    public function estaOcupadoEnRango(\DateTimeInterface $fechaInicio, \DateTimeInterface $fechaFin): bool
+    {
+        foreach ($this->reservas as $reserva) {
+            $reservaInicio = $reserva->getFechaEntrada();
+            $reservaFin = $reserva->getFechaFinContrato();
+
+            // Verificar si hay solapamiento de fechas
+            if (($fechaInicio >= $reservaInicio && $fechaInicio <= $reservaFin) ||
+                ($fechaFin >= $reservaInicio && $fechaFin <= $reservaFin) ||
+                ($fechaInicio <= $reservaInicio && $fechaFin >= $reservaFin)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function estaOcupado(): bool
     {
         $hoy = new \DateTime();
         foreach ($this->reservas as $reserva) {
-            $fechaEntrada = new \DateTime($reserva->getFechaEntrada());
-            $fechaFinContrato = new \DateTime($reserva->getFechaFinContrato());
+            $fechaEntrada = $reserva->getFechaEntrada();
+            $fechaFinContrato = $reserva->getFechaFinContrato();
 
             if ($hoy >= $fechaEntrada && $hoy <= $fechaFinContrato) {
                 return true;
@@ -179,8 +196,8 @@ class Apartamento
 
         foreach ($this->reservas as $reserva) {
             $reservasArray[] = [
-                'fecha_entrada' => $this->estaOcupado() ? null : $reserva->getFechaEntrada(),
-                'fecha_fin_contrato' => $this->estaOcupado() ? null : $reserva->getFechaFinContrato(),
+                'fecha_entrada' => $reserva->getFechaEntrada() ? $reserva->getFechaEntrada()->format('Y-m-d H:i:s') : null,
+                'fecha_fin_contrato' => $reserva->getFechaFinContrato() ? $reserva->getFechaFinContrato()->format('Y-m-d H:i:s') : null,
             ];
         }
 
