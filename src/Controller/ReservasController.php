@@ -52,4 +52,28 @@ class ReservasController extends AbstractController
 
         return $this->json(['mensaje' => 'Reserva creada correctamente.']);
     }
+    #[Route('/reservas/anular/{id}', name: 'anular_reserva', methods: ['PUT'])]
+    public function anularReserva(int $id, EntityManagerInterface $administradorEntidades): JsonResponse
+    {
+        // Buscar la reserva por ID
+        $reserva = $administradorEntidades->getRepository(Reserva::class)->find($id);
+
+        // Validar si la reserva existe
+        if (!$reserva) {
+            return $this->json(['error' => 'La reserva no existe.'], 404);
+        }
+
+        // Validar si la reserva ya está anulada
+        if ($reserva->isAnulada()) {
+            return $this->json(['error' => 'La reserva ya está anulada.'], 400);
+        }
+
+        // Anular la reserva y registrar la fecha de anulación
+        $reserva->setAnulada(true);
+        $reserva->setFechaAnulacion(new \DateTime());
+
+        $administradorEntidades->flush();
+
+        return $this->json(['mensaje' => 'Reserva anulada correctamente.']);
+    }
 }

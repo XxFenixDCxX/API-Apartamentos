@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ReservaRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReservaRepository::class)]
@@ -27,6 +28,9 @@ class Reserva
 
     #[ORM\Column]
     private ?bool $anulada = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $FechaAnulacion = null;
 
     public function getId(): ?int
     {
@@ -100,6 +104,18 @@ class Reserva
     public function setAnulada(bool $anulada): static
     {
         $this->anulada = $anulada;
+
+        return $this;
+    }
+
+    public function getFechaAnulacion(): ?\DateTimeInterface
+    {
+        return $this->FechaAnulacion;
+    }
+
+    public function setFechaAnulacion(?\DateTimeInterface $FechaAnulacion): static
+    {
+        $this->FechaAnulacion = $FechaAnulacion;
 
         return $this;
     }
