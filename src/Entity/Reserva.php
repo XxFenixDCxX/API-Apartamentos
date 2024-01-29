@@ -25,6 +25,9 @@ class Reserva
     #[ORM\Column(length: 255)]
     private ?string $contacto_reserva = null;
 
+    #[ORM\Column]
+    private ?bool $anulada = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,5 +90,17 @@ class Reserva
             'fecha_fin_contrato' => $this->fecha_fin_contrato ? $this->fecha_fin_contrato->format('Y-m-d H:i:s') : null,
             'contacto_reserva' => $this->contacto_reserva,
         ];
+    }
+
+    public function isAnulada(): ?bool
+    {
+        return $this->anulada;
+    }
+
+    public function setAnulada(bool $anulada): static
+    {
+        $this->anulada = $anulada;
+
+        return $this;
     }
 }
