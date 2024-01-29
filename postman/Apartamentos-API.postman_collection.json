@@ -1,0 +1,219 @@
+{
+	"info": {
+		"_postman_id": "ce2c7581-aae4-4f2b-a652-380b3d95a2e7",
+		"name": "Apartamentos-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30618366"
+	},
+	"item": [
+		{
+			"name": "Recibir Apartamentos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/apartamentos",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"apartamentos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Reserva(Sin Campos Error)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/reservas",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Reserva(Apartamento no existe Error)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"apartamento_id\": 100000,\r\n  \"fecha_entrada\": \"2024-02-01\",\r\n  \"fecha_fin_contrato\": \"2024-02-10\",\r\n  \"contacto_reserva\": \"John Doe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/reservas",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Reserva(Apartamento ocupado existe Error)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"apartamento_id\": 1,\r\n  \"fecha_entrada\": \"2024-02-01\",\r\n  \"fecha_fin_contrato\": \"2024-02-20\",\r\n  \"contacto_reserva\": \"John Doe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/reservas",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Reserva",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"apartamento_id\": 1,\r\n  \"fecha_entrada\": \"2024-07-01\",\r\n  \"fecha_fin_contrato\": \"2024-07-20\",\r\n  \"contacto_reserva\": \"John Doe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/reservas",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Anular Reserva (Reserva no existe Error)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/reservas/anular/100000",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"reservas",
+						"anular",
+						"100000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Anular Reserva (Reserva ya anulada Error)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/reservas/anular/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"reservas",
+						"anular",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Anular Reserva",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/reservas/anular/2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"reservas",
+						"anular",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
