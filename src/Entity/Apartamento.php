@@ -155,14 +155,17 @@ class Apartamento
     public function estaOcupadoEnRango(\DateTimeInterface $fechaInicio, \DateTimeInterface $fechaFin): bool
     {
         foreach ($this->reservas as $reserva) {
-            $reservaInicio = $reserva->getFechaEntrada();
-            $reservaFin = $reserva->getFechaFinContrato();
+            if (!$reserva->isAnulada()) {
+                $reservaInicio = $reserva->getFechaEntrada();
+                $reservaFin = $reserva->getFechaFinContrato();
 
-            // Verificar si hay solapamiento de fechas
-            if (($fechaInicio >= $reservaInicio && $fechaInicio <= $reservaFin) ||
-                ($fechaFin >= $reservaInicio && $fechaFin <= $reservaFin) ||
-                ($fechaInicio <= $reservaInicio && $fechaFin >= $reservaFin)) {
-                return true;
+                // Verificar si hay solapamiento de fechas
+                if (($fechaInicio >= $reservaInicio && $fechaInicio <= $reservaFin) ||
+                    ($fechaFin >= $reservaInicio && $fechaFin <= $reservaFin) ||
+                    ($fechaInicio <= $reservaInicio && $fechaFin >= $reservaFin)
+                ) {
+                    return true;
+                }
             }
         }
 

@@ -45,6 +45,7 @@ class ReservasController extends AbstractController
         $reserva->setFechaEntrada($fechaEntrada);
         $reserva->setFechaFinContrato($fechaFin);
         $reserva->setContactoReserva($data['contacto_reserva']);
+        $reserva->setAnulada(false);
 
         $administradorEntidades->persist($reserva);
         $administradorEntidades->flush();
